@@ -46,10 +46,3 @@ plugins:
         password: ${EMAIL_PASS}
         title: ${EMAIL_TITLE}
         content: ${EMAIL_CONTENT}
-        
-  after_photo:
-    - plugin: j2p # jpg图片合成为一个pdf插件
-      kwargs:
-        pdf_dir: D:/pdf # pdf存放文件夹
-        filename_rule: Pid # pdf命名规则
-        quality: 100 # pdf质量，0 - 100
