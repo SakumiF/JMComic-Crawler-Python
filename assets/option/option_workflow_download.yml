@@ -7,6 +7,18 @@ client:
   impl: api # 使用api可免登录下载本子
   domain:
     html: [ jmcomic1.me, jmcomic.me ]
+    
+download:
+  cache: false # 如果要下载的文件在磁盘上已存在，不用再下一遍了吧？默认为true
+  image:
+    decode: true # JM的原图是混淆过的，要不要还原？默认为true
+    suffix: .jpg # 把图片都转为.jpg格式，默认为null，表示不转换。
+  threading:
+    # image: 同时下载的图片数，默认是30张图
+    # 数值大，下得快，配置要求高，对禁漫压力大
+    # 数值小，下得慢，配置要求低，对禁漫压力小
+    # PS: 禁漫网页一次最多请求50张图
+    image: 30
 
 # 插件配置
 plugins:
@@ -25,7 +37,7 @@ plugins:
       kwargs:
         username: ${JM_USERNAME}
         password: ${JM_PASSWORD}
-
+        
   after_download: # 全部下载完成以后
     - plugin: send_qq_email # 发送邮件，如果未配置下面的前3个环境变量则不会发送。
       kwargs:
@@ -34,3 +46,10 @@ plugins:
         password: ${EMAIL_PASS}
         title: ${EMAIL_TITLE}
         content: ${EMAIL_CONTENT}
+        
+  after_photo:
+    - plugin: j2p # jpg图片合成为一个pdf插件
+      kwargs:
+        pdf_dir: D:/pdf # pdf存放文件夹
+        filename_rule: Pid # pdf命名规则
+        quality: 100 # pdf质量，0 - 100
